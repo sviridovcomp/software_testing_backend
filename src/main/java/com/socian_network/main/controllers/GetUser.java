@@ -15,12 +15,11 @@ import java.sql.SQLException;
 @Controller
 public class GetUser {
     @RequestMapping(value = "/api/getListOfUsers")
-    public @ResponseBody void UserList(HttpServletResponse response, HttpServletRequest request) throws SQLException, IOException {
+    public @ResponseBody void List(HttpServletResponse response, HttpServletRequest request) throws SQLException, IOException {
         if (request.getMethod().equals("GET")) {
             Gson json = new Gson();
 
             String serialized = json.toJson(UserList.Get());
-            System.out.println(serialized);
 
             PrintWriter out = response.getWriter();
             out.println(serialized);
