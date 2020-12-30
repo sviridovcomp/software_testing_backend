@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 public class User {
     public User(String name, String password) {
-        this.name_ = name;
-        this.password_ = password;
+        this.name = name;
+        this.password = password;
     }
 
     public String create() throws SQLException {
@@ -21,12 +21,18 @@ public class User {
             "INSERT INTO user (name, password) VALUES (?, ?)"
         );
 
-        p.setString(1, this.name_);
-        p.setString(2, this.password_);
+        p.setString(1, this.name);
+        p.setString(2, this.password);
         p.executeUpdate();
         return p.getGeneratedKeys().getString(1);
     }
 
-    private final String name_;
-    private final String password_;
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getPassword() { return password; }
+
+    private int id;
+    private final String name;
+    private final String password;
 }
+
