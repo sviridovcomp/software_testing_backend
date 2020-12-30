@@ -14,27 +14,22 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Controller
-public class Registration {
-    @RequestMapping(value = "/api/registration")
+public class Login {
+    @RequestMapping(value = "/api/login")
+
     public @ResponseBody void Perform(HttpServletResponse response, HttpServletRequest request) throws IOException, SQLException {
         if (request.getMethod().equals("POST")) {
-
             if (cookie.Get(request, "user_id").isEmpty()) {
-                try {
-                    Gson json = new Gson();
-                    User user = json.fromJson(request.getReader(), User.class);
+                Gson json = new Gson();
+                User user = json.fromJson(request.getReader(), User.class);
 
-                    if (user.getName().isEmpty() || user.getPassword().isEmpty()) {
-                        throw new IOException("user_name or user_password is null");
-                    }
-
-                    String user_id = user.create();
-
-                    response.addCookie(new Cookie("user_id", user_id));
-
-                } catch (IOException | SQLException ex) {
-                    System.out.println(ex.getMessage());
+                if (user.getName().isEmpty() || user.getPassword().isEmpty()) {
+                    throw new IOException("user_name or user_password is null");
                 }
+
+                String user_id = user.authentication();
+
+                response.addCookie(new Cookie("user_id", user_id));
             } else {
                 // TODO: Redirect to user panel
             }

@@ -4,6 +4,7 @@ import com.socian_network.main.codebase.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class User {
@@ -25,6 +26,30 @@ public class User {
         p.setString(2, this.password);
         p.executeUpdate();
         return p.getGeneratedKeys().getString(1);
+    }
+
+    public String authentication() throws SQLException {
+        Connection handler = database.connect();
+
+        PreparedStatement p = handler.prepareStatement(
+            "SELECT id, password FROM user WHERE name = ? LIMIT 1"
+        );
+
+        p.setString(1, this.name);
+        ResultSet rows = p.executeQuery();
+
+        int user_id = rows.getInt("id");
+        String password_form_db = rows.getString("password");
+
+        if (this.password.equals(password_form_db)) {
+            System.out.println("All okay, this works");
+            // TODO: Redirect to user panel
+            return Integer.toString(user_id);
+        } else {
+            System.out.println("All is wrong!");
+            return null;
+            // TODO: Redirect to login with error!
+        }
     }
 
     public int getId() { return id; }
