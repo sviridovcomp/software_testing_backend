@@ -56,8 +56,8 @@ public class User {
     public String getName() { return name; }
     public String getPassword() { return password; }
 
-    private int id;
-    private final String name;
-    private final String password;
+    protected int id;
+    protected String name;
+    protected String password;
 }
 

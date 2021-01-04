@@ -9,21 +9,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserList {
-    public static List<String> Get() throws SQLException {
+public class UserList extends User {
+    public UserList(String name, String password) {
+        super(name, password);
+    }
+
+    public static List<User> Get() throws SQLException {
         Connection handler = database.connect();
 
         PreparedStatement p = handler.prepareStatement(
-                "SELECT * FROM user ORDER BY name LIMIT 50"
+                "SELECT id, name FROM user ORDER BY name LIMIT 50"
         );
 
         ResultSet rows = p.executeQuery();
 
-        List<String> userNameList = new ArrayList<String>(); // Obviously, we should to using list here, but when I'm using list application don't work.
+        List<User> UserList = new ArrayList<User>();
         while (rows.next()) {
-            userNameList.add(rows.getString("name"));
+            User u = new User(rows.getString("name"), "");
+            u.id = rows.getInt("id");
+
+            UserList.add(u);
         }
 
-        return userNameList;
+        return UserList;
     }
 }
