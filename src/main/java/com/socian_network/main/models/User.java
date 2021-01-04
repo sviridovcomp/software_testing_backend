@@ -13,6 +13,10 @@ public class User {
         this.password = password;
     }
 
+    public User(String user_id) {
+        this.id = Integer.parseInt(user_id);
+    }
+
     public String create() throws SQLException {
         // TODO: Check existing of account
 
@@ -42,13 +46,9 @@ public class User {
         String password_form_db = rows.getString("password");
 
         if (this.password.equals(password_form_db)) {
-            System.out.println("All okay, this works");
-            // TODO: Redirect to user panel
             return Integer.toString(user_id);
         } else {
-            System.out.println("All is wrong!");
             return null;
-            // TODO: Redirect to login with error!
         }
     }
 

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @Controller
@@ -32,13 +32,17 @@ public class Registration {
 
                     String user_id = user.create();
 
-                    response.addCookie(new Cookie("user_id", user_id));
+                    User user_ = new User(user_id);
+                    String user_ids = json.toJson(user_);
+
+                    PrintWriter out = response.getWriter();
+                    out.println(user_ids);
 
                 } catch (IOException | SQLException ex) {
                     System.out.println(ex.getMessage());
                 }
             } else {
-                // TODO: Redirect to user panel
+                response.sendRedirect("http://localhost:8081/");
             }
         }
     }
