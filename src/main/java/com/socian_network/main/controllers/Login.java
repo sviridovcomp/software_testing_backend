@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.socian_network.main.codebase.cookie;
 import com.socian_network.main.models.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,11 +16,13 @@ import java.sql.SQLException;
 
 @Controller
 public class Login {
+    @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
     @RequestMapping(value = "/api/login")
 
     public @ResponseBody void Perform(HttpServletResponse response, HttpServletRequest request) throws IOException, SQLException {
         if (request.getMethod().equals("POST")) {
             if (cookie.Get(request, "user_id").isEmpty()) {
+
                 Gson json = new Gson();
                 User user = json.fromJson(request.getReader(), User.class);
 
